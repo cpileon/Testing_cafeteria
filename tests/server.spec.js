@@ -6,6 +6,8 @@ describe("Operaciones CRUD de cafes", () => {
     it ("/get producto retorna un arreglo y no vacío", async() =>{
         const response = await request(server).get("/cafes").send();
         const body = response.body;
+        const statusCode = response.statusCode
+        expect(statusCode).toBe(200);
         expect(body).toBeInstanceOf(Array);
         expect(body.length).toBeGreaterThan(0);
     })
@@ -27,8 +29,12 @@ describe("Operaciones CRUD de cafes", () => {
         const id = Math.floor(Math.random() * 999);
         const cafeNuevo = { id, nombre: "Frapuccino" };
         const response = await request(server).post("/cafes").send(cafeNuevo);
-        const statusCode = response.statusCode
-        expect(statusCode).toBe(201)
+        const statusCode = response.statusCode;
+        const body = response.body;
+        expect(statusCode).toBe(201);
+        expect(body).toContainEqual(cafeNuevo);
+
+
     });
 
     //4. Prueba que la ruta PUT /cafes devuelve un status code 400 si intentas actualizar un café enviando un id en los parámetros que sea diferente al id dentro del payload.
