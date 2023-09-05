@@ -6,23 +6,23 @@ describe("Operaciones CRUD de cafes", () => {
     it ("/get producto retorna un arreglo y no vacío", async() =>{
         const response = await request(server).get("/cafes").send();
         const body = response.body;
-        const statusCode = response.statusCode
+        const statusCode = response.statusCode;
         expect(statusCode).toBe(200);
         expect(body).toBeInstanceOf(Array);
         expect(body.length).toBeGreaterThan(0);
-    })
+    });
 
     //2. Comprueba que se obtiene un código 404 al intentar eliminar un café con un id que no existe.
     it ("/delete producto que no existe", async()=>{
         const jwt = "token";
-        const idDeProductoAEliminar = 5
+        const idDeProductoAEliminar = 5;
         const response = await request(server)
         .delete(`/cafes/${idDeProductoAEliminar}`)
         .set("Authorization", jwt)
         .send();
-        const statusCode = response.statusCode
-        expect(statusCode).toBe(404)
-    })  
+        const statusCode = response.statusCode;
+        expect(statusCode).toBe(404);
+    });
 
     //3. Prueba que la ruta POST /cafes agrega un nuevo café y devuelve un código 201.
     it("Agregando un nuevo café", async () => {
@@ -33,18 +33,16 @@ describe("Operaciones CRUD de cafes", () => {
         const body = response.body;
         expect(statusCode).toBe(201);
         expect(body).toContainEqual(cafeNuevo);
-
-
     });
 
     //4. Prueba que la ruta PUT /cafes devuelve un status code 400 si intentas actualizar un café enviando un id en los parámetros que sea diferente al id dentro del payload.
     it("Comprobar si estoy tratando de sobreescribir un producto que no existe", async () => {
-        const idCafe = 2
+        const idCafe = 2;
         const cafeUpdate = { id: 90,
         nombre: "Frapuccino"};
         const response = await request(server).put(`/cafes/${idCafe}`).send(cafeUpdate);
-        const statusCode = response.statusCode
-        expect(statusCode).toBe(400)
+        const statusCode = response.statusCode;
+        expect(statusCode).toBe(400);
     });
 
 });
